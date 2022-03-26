@@ -1,29 +1,22 @@
 import { useEffect, useState } from "react";
 
+function Hello() {
+  const hiFn = () => {
+    console.log("Created");
+    return byeFn;
+  };
+  const byeFn = () => console.log("Destroyed");
+  useEffect(hiFn, []);
+  return <h1>Hello</h1>;
+}
+
 function App() {
-  const [value, setValue] = useState(0);
-  const [keyword, setKeyword] = useState("");
-  const onClick = () => setValue((value) => value + 1);
-  const onChange = (event) => setKeyword(event.target.value);
-  useEffect(() => {
-    console.log("I run when 'keyword' changes.", keyword);
-  }, [keyword]);
-  useEffect(() => {
-    console.log("I run when 'value' changes.", value);
-  }, [value]);
-  useEffect(() => {
-    console.log("I run when keyword & value change", keyword, value);
-  }, [keyword, value]);
+  const [showing, setShowing] = useState(false);
+  const onClick = () => setShowing((prev) => !prev);
   return (
     <div>
-      <input
-        value={keyword}
-        onChange={onChange}
-        type="text"
-        placeholder="Search Here..."
-      />
-      <h1>{value}</h1>
-      <button onClick={onClick}>Click Me</button>
+      {showing ? <Hello /> : null}
+      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
     </div>
   );
 }
@@ -47,4 +40,12 @@ In the second argument of useEffect(), we put an array of consts;
 If the array is empty, the callbackFunction will only run once at the initial render;
 If there are any keyword in the array argument, the callbackFunction will run when there is
 any change in the const;
+This array argument is called dependencies;
+*/
+
+/* 6.4 Cleanup
+Within the callbackFunction of useEffect(), you can add a cleanupFunction in the return;
+This function will run when the parent component of useEffect is destroyed;
+
+Create anonymous function: () => {};
 */

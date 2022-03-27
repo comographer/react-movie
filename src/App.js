@@ -1,3 +1,4 @@
+// import useEffect and useState;
 import { useEffect, useState } from "react";
 
 function App() {
@@ -14,11 +15,12 @@ function App() {
     // if toDo value is empty, don't do anything by returning nothing;
     if (toDo === "") return;
     // else, add toDo value to new state of toDos including current array;
+    // When we give a function as argument in a setState() function,
+    // you will be given current state as the argument;
     setToDos((currentArray) => [toDo, ...currentArray]);
     // Make toDo input blank after submission;
     setToDo("");
   };
-  console.log(toDos);
   return (
     <div>
       {/* To add javascript directly on HTML elements, put them within {}; */}
@@ -32,6 +34,14 @@ function App() {
         />
         <button>Add To Do</button>
       </form>
+      <hr />
+      <ul>
+        {/* First argument of map is elements and second argument is index; */}
+        {toDos.map((item, index) => (
+          // key prop is unique value that should be given to each <li> element on ReactJS;
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 }

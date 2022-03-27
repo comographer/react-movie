@@ -1,22 +1,37 @@
 import { useEffect, useState } from "react";
 
-function Hello() {
-  const hiFn = () => {
-    console.log("Created");
-    return byeFn;
-  };
-  const byeFn = () => console.log("Destroyed");
-  useEffect(hiFn, []);
-  return <h1>Hello</h1>;
-}
-
 function App() {
-  const [showing, setShowing] = useState(false);
-  const onClick = () => setShowing((prev) => !prev);
+  // Initial value of toDo input is blank;
+  const [toDo, setToDo] = useState("");
+  // Initial value of toDos array is blank;
+  const [toDos, setToDos] = useState([]);
+  // Set toDo state value to input value;
+  const onChange = (event) => setToDo(event.target.value);
+  // Function to run when new toDo is submitted;
+  const onSubmit = (event) => {
+    // event.preventDefault() to prevent page refresh upon form submit;
+    event.preventDefault();
+    // if toDo value is empty, don't do anything by returning nothing;
+    if (toDo === "") return;
+    // else, add toDo value to new state of toDos including current array;
+    setToDos((currentArray) => [toDo, ...currentArray]);
+    // Make toDo input blank after submission;
+    setToDo("");
+  };
+  console.log(toDos);
   return (
     <div>
-      {showing ? <Hello /> : null}
-      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
+      {/* To add javascript directly on HTML elements, put them within {}; */}
+      <h1>My To Dos ({toDos.length})</h1>
+      <form onSubmit={onSubmit}>
+        <input
+          onChange={onChange}
+          value={toDo}
+          type="text"
+          placeholder="Write your to do..."
+        />
+        <button>Add To Do</button>
+      </form>
     </div>
   );
 }

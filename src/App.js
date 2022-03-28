@@ -4,6 +4,20 @@ import { useEffect, useState } from "react";
 function App() {
   const [loading, setLoading] = useState(true);
   const [coins, setCoins] = useState([]);
+  const [selected, setSelected] = useState("");
+  const [currency, setCurrency] = useState(0);
+  const [input, setInput] = useState(0);
+
+  const handleSelect = (event) => {
+    setSelected(event.target.value);
+  };
+
+  const handleInput = (event) => {
+    setInput(event.target.value);
+    setCurrency(selected.replace(/[^0-9]/g, "") / 100);
+  };
+
+  // Fetch coinpaprika API and turn into JSON;
   useEffect(() => {
     fetch("https://api.coinpaprika.com/v1/tickers")
       .then((res) => res.json())
@@ -12,20 +26,43 @@ function App() {
         setLoading(false);
       });
   }, []);
+
+  // Format coin value to be upto 2nd decimal point;
+  const coinRound = (coin) => (Math.round(coin * 100) / 100).toFixed(2);
+
   return (
     <div>
       <h1>The Coins! {loading ? "" : `(${coins.length})`}</h1>
       {loading ? (
         <strong>Loading...</strong>
       ) : (
-        <ul>
+        <select onChange={handleSelect} value={selected}>
+          <option key="default">Select a Coin</option>
           {coins.map((coin) => (
-            <li key={coin.id}>
-              {coin.name} ({coin.symbol}): ${coin.quotes.USD.price} USD
-            </li>
+            <option key={coin.id}>
+              {coin.name} ({coin.symbol}): ${coinRound(coin.quotes.USD.price)}{" "}
+              USD
+            </option>
           ))}
-        </ul>
+        </select>
       )}
+      <hr />
+      <form>
+        <label htmlFor="USD">USD</label>
+        <input
+          id="USD"
+          type="number"
+          value={input}
+          onChange={handleInput}
+        ></input>
+        <label htmlFor="coin">Crypto Currency</label>
+        <input
+          id="coin"
+          type="number"
+          value={input / currency}
+          disabled={true}
+        ></input>
+      </form>
     </div>
   );
 }

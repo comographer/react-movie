@@ -2,46 +2,30 @@
 import { useEffect, useState } from "react";
 
 function App() {
-  // Initial value of toDo input is blank;
-  const [toDo, setToDo] = useState("");
-  // Initial value of toDos array is blank;
-  const [toDos, setToDos] = useState([]);
-  // Set toDo state value to input value;
-  const onChange = (event) => setToDo(event.target.value);
-  // Function to run when new toDo is submitted;
-  const onSubmit = (event) => {
-    // event.preventDefault() to prevent page refresh upon form submit;
-    event.preventDefault();
-    // if toDo value is empty, don't do anything by returning nothing;
-    if (toDo === "") return;
-    // else, add toDo value to new state of toDos including current array;
-    // When we give a function as argument in a setState() function,
-    // you will be given current state as the argument;
-    setToDos((currentArray) => [toDo, ...currentArray]);
-    // Make toDo input blank after submission;
-    setToDo("");
-  };
+  const [loading, setLoading] = useState(true);
+  const [coins, setCoins] = useState([]);
+  useEffect(() => {
+    fetch("https://api.coinpaprika.com/v1/tickers")
+      .then((res) => res.json())
+      .then((json) => {
+        setCoins(json);
+        setLoading(false);
+      });
+  }, []);
   return (
     <div>
-      {/* To add javascript directly on HTML elements, put them within {}; */}
-      <h1>My To Dos ({toDos.length})</h1>
-      <form onSubmit={onSubmit}>
-        <input
-          onChange={onChange}
-          value={toDo}
-          type="text"
-          placeholder="Write your to do..."
-        />
-        <button>Add To Do</button>
-      </form>
-      <hr />
-      <ul>
-        {/* First argument of map is elements and second argument is index; */}
-        {toDos.map((item, index) => (
-          // key prop is unique value that should be given to each <li> element on ReactJS;
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
+      <h1>The Coins! {loading ? "" : `(${coins.length})`}</h1>
+      {loading ? (
+        <strong>Loading...</strong>
+      ) : (
+        <ul>
+          {coins.map((coin) => (
+            <li key={coin.id}>
+              {coin.name} ({coin.symbol}): ${coin.quotes.USD.price} USD
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

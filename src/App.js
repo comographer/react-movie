@@ -1,56 +1,5 @@
-// import useEffect and useState;
-import { useEffect, useState } from "react";
-
 function App() {
-  // State for loading status;
-  const [loading, setLoading] = useState(true);
-  // Movies array State;
-  const [movies, setMovies] = useState([]);
-  // async & await function to fetch API;
-  const getMovies = async () => {
-    // await API fetch and turn it into json;
-    const json = await (
-      await fetch(
-        // fetch Movies API with minimum_rating of 8.8 and sort_by year;
-        `https://yts.mx/api/v2/list_movies.json?minimum_rating=8.8&sort_by=year`
-      )
-    ).json();
-    setMovies(json.data.movies);
-    // End loading;
-    setLoading(false);
-  };
-  // useEffect() to call API only once in the beginning;
-  useEffect(() => {
-    getMovies();
-  }, []);
-  return (
-    <div>
-      {/* Return <h1>Loading...</h1> if loading state is true; */}
-      {loading ? (
-        <h1>Loading...</h1>
-      ) : (
-        // Return below if loading state is false;
-        <div>
-          {/* map() movies array; */}
-          {movies.map((movie) => (
-            // key for ReactJS;
-            <div key={movie.id}>
-              <img src={movie.medium_cover_image} />
-              <h2>{movie.title}</h2>
-              <p>{movie.summary}</p>
-              <ul>
-                {/* map() genres array; */}
-                {movie.genres.map((g) => (
-                  // key for ReactJS;
-                  <li key={g}>{g}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  return null;
 }
 
 export default App;

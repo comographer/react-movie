@@ -1,15 +1,19 @@
+// Import components for routes on ReactJS;
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// Import components to display on screen;
 import Home from "./routes/Home";
 import Detail from "./routes/Detail";
 
 function App() {
   return (
+    // Router > Routes > Route path="route" element={<Component />}
     <Router>
       <Routes>
         {/* Route "/" to <Home /> component */}
         <Route path="/" element={<Home />}></Route>
         {/* Route "/movie" to <Detail /> component */}
-        <Route path="/movie" element={<Detail />}></Route>
+        {/* /:id enables parameters */}
+        <Route path="/movie/:id" element={<Detail />}></Route>
       </Routes>
     </Router>
   );

@@ -39,6 +39,7 @@ function Home() {
             <Movie
               // There should always be a key in ReactJS when you are using map();
               key={movie.id}
+              id={movie.id}
               coverImg={movie.medium_cover_image}
               title={movie.title}
               summary={movie.summary}

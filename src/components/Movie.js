@@ -11,7 +11,11 @@ function Movie({ id, coverImg, title, summary, genres }) {
         {/* Link to `/movie/${id}`, dynamic url */}
         <Link to={`/movie/${id}`}>{title}</Link>
       </h2>
-      <p>{summary}</p>
+      <p>
+        {summary.split(" ").length <= 45
+          ? summary
+          : `${summary.split(" ").slice(1, 45).join(" ")}...`}
+      </p>
       <ul>
         {/* map() genres array; */}
         {genres.map((g) => (

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 // import Movie component;
 import Movie from "../components/Movie";
+import styles from "./Home.modules.css";
 
 function Home() {
   // State for loading status;
@@ -26,13 +27,13 @@ function Home() {
     getMovies();
   }, []);
   return (
-    <div>
+    <div className={styles.container}>
       {/* Return <h1>Loading...</h1> if loading state is true; */}
       {loading ? (
         <h1>Loading...</h1>
       ) : (
         // Return below if loading state is false;
-        <div>
+        <div className={styles.movies}>
           {/* map() movies array; */}
           {movies.map((movie) => (
             // Give props to Movie component;

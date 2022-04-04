@@ -30,7 +30,7 @@ function Home() {
     <div className={styles.container}>
       {/* Return <h1>Loading...</h1> if loading state is true; */}
       {loading ? (
-        <h1>Loading...</h1>
+        <h1 className={styles.loader}>Loading...</h1>
       ) : (
         // Return below if loading state is false;
         <div className={styles.movies}>
